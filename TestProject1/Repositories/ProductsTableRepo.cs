@@ -23,4 +23,21 @@ public class ProductsTableRepo: IProductRepository
         );
         return productById;
     }
+    
+    public async Task<IEnumerable<ProductsTableDTO>> GetAllProducts()
+    {
+        using var db = new SqliteConnection(_connection);
+        var products = await db.QueryAsync<ProductsTableDTO>(
+            "SELECT * FROM products");
+        return products;
+    }
+    
+    public async Task<IEnumerable<ProductsTableDTO>> GetProductsByCategoryId(int categoryId)
+    {
+        using var db = new SqliteConnection(_connection);
+        var products = await db.QueryAsync<ProductsTableDTO>(
+            "SELECT * from Products WHERE CategoryId = @categoryId",
+            new { categoryId });
+        return products;
+    }
 }

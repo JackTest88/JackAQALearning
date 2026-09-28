@@ -37,4 +37,16 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Modules\NotificationModule.cs" />
+      <Compile Remove="Preconditions\NotificationPreconditions.cs" />
+      <Compile Remove="DependencyInjectionTask\EmailSender.cs" />
+      <Compile Remove="DependencyInjectionTask\UserNotifier.cs" />
+      <Compile Remove="AutoTests\UserNotifierTests.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DependencyInjectionTask\" />
+    </ItemGroup>
+
 </Project>

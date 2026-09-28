@@ -113,4 +113,49 @@ public class DBase1Autotests
         userOrderItems[3].quantity.Should().Be(2);
         userOrderItems[3].unitPrice.Should().Be(4990);
     }
+    
+   [Test]
+   public async Task Test8_CheckAccessoryBuyersAreFromDifferentCities()
+   {
+       var productRepo = p.Provider.GetService<IProductRepository>();
+       var itemsRepo = p.Provider.GetService<IOrderItemsRepository>();
+       var orderRepo = p.Provider.GetService<IOrderRepository>();
+       var addressRepo = p.Provider.GetService<IAddressesRepository>();
+
+       // находим ID всех товаров c категорией аксессуары (6)
+       var accessoryProductsIds = (await productRepo.GetProductsByCategoryId(6))
+           .Select(product => product.id)
+           .ToList();
+
+       // находим заказы и составляем список
+       var orderIds = (await itemsRepo.GetOrderItemsByProductIds(accessoryProductsIds))
+           .Select(item => item.orderId)
+           .Distinct()
+           .ToList();
+
+       // находим пользователей
+       var userIds = (await orderRepo.GetOrdersByIds(orderIds))
+           .Select(order => order.userId)
+           .Distinct()
+           .ToList();
+
+       // собираем города
+       var cities = new List<string>();
+       foreach (var userId in userIds)
+       {
+           var userAddresses = await addressRepo.GetAddressesByUserId(userId);
+           var userCity = userAddresses.FirstOrDefault()?.city;
+
+           if (!string.IsNullOrEmpty(userCity))
+           {
+               cities.Add(userCity);
+           }
+       }
+
+       // сами ассерты
+       cities.Should().NotBeEmpty("У покупателей аксессуаров должны быть указаны города");
+    
+       cities.Distinct().Count()
+           .Should().BeGreaterThan(1, "Покупатели аксессуаров должны быть из разных городов");
+   }
 }

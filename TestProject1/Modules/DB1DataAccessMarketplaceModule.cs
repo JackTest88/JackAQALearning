@@ -13,6 +13,7 @@ public static class DataAccessMarketplaceModule
         services.AddScoped<IProductRepository>(p => new ProductsTableRepo(connectionString));
         services.AddScoped<IOrderRepository>(p => new OrdersTableRepo(connectionString));
         services.AddScoped<IOrderItemsRepository>(p => new OrderItemsTableRepo(connectionString));
+        services.AddScoped<IAddressesRepository>(p => new AdressesTableRepo(connectionString));
         
         return services;
     }

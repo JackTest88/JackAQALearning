@@ -7,4 +7,5 @@ public interface IOrderRepository
     Task<OrdersTableDTO?> GetOrderById(long id);
     Task<IEnumerable<OrdersTableDTO>> GetAllOrders();
     Task<IEnumerable<OrdersTableDTO>> GetOrdersForUser (long userId);
+    Task<IEnumerable<OrdersTableDTO>> GetOrdersByIds(IEnumerable<long> ids);
 }

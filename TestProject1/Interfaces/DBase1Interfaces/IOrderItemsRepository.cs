@@ -7,4 +7,8 @@ public interface IOrderItemsRepository
     Task<IEnumerable<OrderItemsTableDTO>> GetOrderItemsByOrderId(long orderId);
     
     Task<IEnumerable<OrderItemsTableDTO>> GetOrderItemsByUserId(long userId);
+    
+    Task<IEnumerable<OrderItemsTableDTO>> GetAllOrderItems();
+    
+    Task<IEnumerable<OrderItemsTableDTO>> GetOrderItemsByProductIds(IEnumerable<long> productIds);
 }

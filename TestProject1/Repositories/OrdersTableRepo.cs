@@ -40,4 +40,14 @@ public class OrdersTableRepo: IOrderRepository
             param: new { userId });
         return ordersForUser;
     }
+    
+    public async Task<IEnumerable<OrdersTableDTO>> GetOrdersByIds(IEnumerable<long> ids)
+    {
+        using var db = new SqliteConnection(_connection);
+        var orders = await db.QueryAsync<OrdersTableDTO>(
+            "SELECT * from Orders WHERE Id IN @ids",
+            new { ids });
+        return orders;
+    }
+    
 }
