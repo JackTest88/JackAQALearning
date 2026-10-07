@@ -10,14 +10,21 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.4"/>
+        <PackageReference Include="Dapper" Version="2.1.79" />
         <PackageReference Include="FluentAssertions" Version="8.10.0" />
+        <PackageReference Include="FluentAssertions.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0-preview3.26238.4" />
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0-preview.7.26381.103" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0"/>
+        <PackageReference Include="Microsoft.Playwright" Version="1.63.0" />
+        <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.63.0" />
         <PackageReference Include="NUnit" Version="4.3.2"/>
         <PackageReference Include="NUnit.Analyzers" Version="4.7.0"/>
         <PackageReference Include="NUnit3TestAdapter" Version="5.0.0"/>
         <PackageReference Include="Refit" Version="15.2.0" />
         <PackageReference Include="Refit.HttpClientFactory" Version="15.2.0" />
         <PackageReference Include="Refit.Reflection" Version="15.2.0" />
+        <PackageReference Include="SQLite" Version="3.53.4" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +35,22 @@
       <None Update="Resources\OrderData.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Resources\UsersData.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Modules\NotificationModule.cs" />
+      <Compile Remove="Preconditions\NotificationPreconditions.cs" />
+      <Compile Remove="DependencyInjectionTask\EmailSender.cs" />
+      <Compile Remove="DependencyInjectionTask\UserNotifier.cs" />
+      <Compile Remove="AutoTests\UserNotifierTests.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="DependencyInjectionTask\" />
+      <Folder Include="ForUI\Fixtures\" />
     </ItemGroup>
 
 </Project>
