@@ -2,6 +2,8 @@ using Microsoft.Playwright.NUnit;
 using FluentAssertions;
 using Microsoft.Playwright;
 using System;
+using System.Text.Json;
+using TestProject1.DTO.SauceDemo;
 using System.Collections.Generic;
 using System.Text;
 using TestProject1.ForUI.Framework;
@@ -75,5 +77,29 @@ public class SauceDemoTests: BaseTest
         var completePage = new CheckoutCompletePage(Page);
         await completePage.CheckPageOpenAsync();
         await completePage.CheckThankYouMessageAsync();
+    }
+
+    // Данные валидных пользователей лежат в Resources/SauceDemoUsers.json
+    // (locked_out_user сюда не входит - он заблокирован и войти не сможет)
+    public static IEnumerable<TestCaseData> ValidUsers()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "Resources", "SauceDemoUsers.json");
+        var users = JsonSerializer.Deserialize<List<SauceUserDTO>>(File.ReadAllText(path))!;
+
+        foreach (var user in users)
+        {
+            yield return new TestCaseData(user).SetName($"SauceDemoLogin_{user.UserName}");
+        }
+    }
+
+    [TestCaseSource(nameof(ValidUsers))]
+    public async Task LoginAllValidUsers(SauceUserDTO user)
+    {
+        var loginPage = new LoginPage(Page);
+        await loginPage.OpenLoginPageAsync();
+        await loginPage.LoginAsync(user.UserName, user.Password);
+
+        var productsPage = new ProductsPage(Page);
+        await productsPage.CheckPageOpenAsync();
     }
 }

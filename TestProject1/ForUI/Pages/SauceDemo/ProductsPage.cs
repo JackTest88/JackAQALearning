@@ -16,7 +16,8 @@ public class ProductsPage
 
     public async Task CheckPageOpenAsync()
     {
-        await Assertions.Expect(Page).ToHaveURLAsync("https://www.saucedemo.com/inventory.html");
+        // запас по времени: у performance_glitch_user вход занимает несколько секунд
+        await Assertions.Expect(Page).ToHaveURLAsync("https://www.saucedemo.com/inventory.html", new() { Timeout = 15000 });
         await Assertions.Expect(Title).ToHaveTextAsync("Products");
     }
 
