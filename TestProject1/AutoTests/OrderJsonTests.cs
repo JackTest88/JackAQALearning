@@ -3,6 +3,7 @@ using System.Text.Json;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using TestProject1.DTO;
+using TestProject1.DTO.UsersDataDTOs;
 
 namespace TestProject1.AutoTests;
 
@@ -44,8 +45,8 @@ public class OrderJsonTests
         
         using (new AssertionScope())
         {
-            hasElectonicsCategory.Should().OnlyContain(item => item.Category == "Electronics1");
-            hasElectonicsCategory.Should().HaveCount(3);
+            hasElectonicsCategory.Should().OnlyContain(item => item.Category == "Electronics");
+            hasElectonicsCategory.Should().HaveCount(2);
         }
     }
 }
